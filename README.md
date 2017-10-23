@@ -15,3 +15,8 @@ Options:
         -c, --check= - What to check. Valid options are: events last <nb>, controllers, power-supplies, sensor-status, system.
         
         -v, --version - print the version
+
+Note about Python version compatibilities:
+
+* For Python 2.7 use check_msa2040.py
+* For Python 3+ use check_msa2040.py3
