@@ -1,9 +1,9 @@
 #!/usr/bin/python
-import sys, getopt, urllib, urllib2, md5, ssl
+import sys, getopt, urllib, urllib2, hashlib, ssl
 import xml.etree.ElementTree as ET
 
 class StaticOutput:
-    author = "Written by Alexandru Asofroniei (alexandru.asofroniei@mindcti.com)"
+    author = "Written by Alexandru Asofroniei (alex@aso.re)"
     version = "1.0 Production"
     about = "This python program checks the status of the HPE MSA2040 Storage system using the XML API."
     usage = "Options:\n\t-h,--help - display this message\n\t-n, --hostname= - IP or hostname of the storage\n\t-u, --username= - Username to connect to the storage\n\t-p --password = - Password to connect to the storage\n\t-c, --check= - What to check. Valid options are: events last <nb>, controllers, power-supplies, sensor-status, system. \n\t-v, --version - print the version"
@@ -17,7 +17,8 @@ class StaticCommands:
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
-        credentials = md5.new(un+"_"+pss).hexdigest()
+	credentialString = un + "_" + pss
+        credentials = hashlib.md5(credentialString.encode()).hexdigest()
         url = "https://" + hn + lu + credentials
         req = urllib2.Request(url)
         response = urllib2.urlopen(req, context=ctx)
