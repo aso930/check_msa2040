@@ -17,7 +17,7 @@ class StaticCommands:
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
-	credentialString = un + "_" + pss
+        credentialString = un + "_" + pss
         credentials = hashlib.md5(credentialString.encode()).hexdigest()
         url = "https://" + hn + lu + credentials
         req = urllib2.Request(url)
