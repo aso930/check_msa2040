@@ -145,12 +145,12 @@ def main(argv):
     opts, args = getopt.getopt(argv, "hvn:u:p:c:",["help", "version", "hostname=", "username=", "password=", "check="])
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print StaticOutput.about
-            print StaticOutput.usage
+            print(StaticOutput.about)
+            print(StaticOutput.usage)
             sys.exit(exitCode)
         elif opt in ("-v", "--version"):
-            print StaticOutput.version
-            print StaticOutput.author
+            print(StaticOutput.version)
+            print(StaticOutput.author)
             sys.exit(exitCode)
         elif opt in ("-n","--hostname"):
             hostname = arg
@@ -161,17 +161,17 @@ def main(argv):
         elif opt in ("-c", "--check"):
             command = arg
         else:
-            print StaticOutput.about
-            print StaticOutput.usage
+            print(StaticOutput.about)
+            print(StaticOutput.usage)
             sys.exit(exitCode)
     
     if hostname not in "" and userName not in "" and password not in "" and command not in "":
         response = StaticCommands.authenticate(hostname, loginURL, userName, password)
         if debug == 1:
-            print response 
+            print(response) 
         root = ET.fromstring(response)
         if 'Unsuccessful' in root[0][2].text:
-            print "Authentication Unsuccessful: The provided credentials are bad."
+            print("Authentication Unsuccessful: The provided credentials are bad.")
             sys.exit(exitCode)
         else:
             sessionKey = root[0][2].text #This is based on the response received from the MSA2040
@@ -186,7 +186,7 @@ def main(argv):
                 else:
                     output = "Errors have been detected.<br>More info in the extended view.\n" + output
                 response = StaticCommands.logout(hostname, logoutURL, sessionKey)
-                print output
+                print(output)
                 sys.exit(exitCode)
 
         if "controllers" in command:
@@ -196,7 +196,7 @@ def main(argv):
             else:
                 output = "Controllers status is degraded.<br>More info in the extended view.\n" + output
             response = StaticCommands.logout(hostname, logoutURL, sessionKey)
-            print output
+            print(output)
             sys.exit(exitCode)
 
         if "power-supplies" in command:
@@ -206,7 +206,7 @@ def main(argv):
             else:
                 output = "Power supplies status is degraded.<br>More info in the extended view.\n" + output
             response = StaticCommands.logout(hostname, logoutURL, sessionKey)
-            print output
+            print(output)
             sys.exit(exitCode)
         
         if "sensor-status" in command:
@@ -216,7 +216,7 @@ def main(argv):
             else:
                 output = "Sensor status is over threshold.<br>More info in the extended view.\n" + output
             response = StaticCommands.logout(hostname, logoutURL, sessionKey)
-            print output
+            print(output)
             sys.exit(exitCode)
 
         if "system" in command:
@@ -226,13 +226,13 @@ def main(argv):
             else:
                 output = "System health is degraded.<br>More info in the extended view.\n" + output
             response = StaticCommands.logout(hostname, logoutURL, sessionKey)
-            print output
+            print(output)
             sys.exit(exitCode)
     
         #Logout after job is done
         response = StaticCommands.logout(hostname, logoutURL, sessionKey)
-    print "You are missing a required option."
-    print StaticOutput.usage
+    print("You are missing a required option.")
+    print(StaticOutput.usage)
 
     sys.exit(exitCode)
 
